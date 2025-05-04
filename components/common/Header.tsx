@@ -1,9 +1,8 @@
 import Link from "next/link";
 import { FileText } from "lucide-react";
-import { Button } from "../ui/button";
+import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 
 export default function Header() {
-  const isLoggedIn = false;
   return (
     <nav className="container flex items-center justify-between py-4 lg:px-8 px-2 mx-auto">
       <div className="flex lg:flex-1">
@@ -18,28 +17,30 @@ export default function Header() {
         <Link href="/#pricing" className="hover:text-rose-600">
           Pricing
         </Link>
-        {isLoggedIn && (
+        <SignedIn>
           <Link href="/dashboard" className="hover:text-rose-600">
             Your Summaries
           </Link>
-        )}
+        </SignedIn>
       </div>
       <div className="flex lg:flex-1 lg:justify-end">
-        {isLoggedIn ? (
+        <SignedIn>
           <div className="flex gap-2 items-center">
             <Link href="/upload" className="hover:text-rose-600">
               Upload a PDF
             </Link>
             <div>Pro</div>
-            <Button className="hover:text-rose-600">Sign Out</Button>
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
           </div>
-        ) : (
-          <div>
-            <Link href="/sign-in" className="hover:text-rose-600">
-              Sign In
-            </Link>
-          </div>
-        )}
+        </SignedIn>
+
+        <SignedOut>
+          <Link href="/sign-in" className="hover:text-rose-600">
+            Sign In
+          </Link>
+        </SignedOut>
       </div>
     </nav>
   );
