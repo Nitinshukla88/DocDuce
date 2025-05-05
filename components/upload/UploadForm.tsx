@@ -1,6 +1,8 @@
 "use client";
+import { useUploadThing } from "@/utils/uploadthing";
 import UploadFormInput from "./UploadFormInput";
 import { z } from "zod";
+import { toast } from "sonner";
 const Schema = z.object({
   file: z
     .instanceof(File, { message: "Invalid File" })
@@ -15,17 +17,46 @@ const Schema = z.object({
 });
 
 export default function UploadForm() {
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const { startUpload, routeConfig } = useUploadThing("pdfUploader", {
+    onClientUploadComplete: () => {
+      console.log("uploaded successfully!");
+    },
+    onUploadError: (err) => {
+      console.log("error occurred while uploading", err);
+      toast("Error occurred during upload", {
+        description: err.message,
+      });
+    },
+    onUploadBegin: (file) => {
+      console.log("upload has begun for", file);
+    },
+  });
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log("Form submitted");
     const formData = new FormData(e.currentTarget);
     const file = formData.get("file") as File;
     const validatedFields = Schema.safeParse({ file });
-    if(!validatedFields.success){
-      console.log(validatedFields.error.flatten().fieldErrors.file?.[0] ?? 'Invalid File');
+    if (!validatedFields.success) {
+      toast("❌ Something went wrong", {
+        description:
+          validatedFields.error.flatten().fieldErrors.file?.[0] ??
+          "Invalid File",
+      });
       return;
     }
-    console.log(validatedFields);
+    toast("📄 Uploading PDF...", {
+      description: "We are uploading your PDF! ✨",
+    });
+    const res = await startUpload([file]);
+    if (!res) {
+      toast("❌ Something went wrong", {description : "Please use different file"});
+      return;
+    }
+    toast("📄 Processing PDF", {
+      description: "Hang tight! Our AI is reading through your document! ✨",
+    });
   };
   return (
     <div className="flex flex-col gap-8 w-full max-w-2xl mx-auto">
