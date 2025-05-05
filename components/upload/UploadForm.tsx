@@ -3,6 +3,7 @@ import { useUploadThing } from "@/utils/uploadthing";
 import UploadFormInput from "./UploadFormInput";
 import { z } from "zod";
 import { toast } from "sonner";
+import { generatePdfSummary } from "@/actions/UploadActions";
 const Schema = z.object({
   file: z
     .instanceof(File, { message: "Invalid File" })
@@ -57,6 +58,7 @@ export default function UploadForm() {
     toast("📄 Processing PDF", {
       description: "Hang tight! Our AI is reading through your document! ✨",
     });
+    const summary = await generatePdfSummary(res);
   };
   return (
     <div className="flex flex-col gap-8 w-full max-w-2xl mx-auto">
