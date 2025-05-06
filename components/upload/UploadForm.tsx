@@ -59,6 +59,7 @@ export default function UploadForm() {
       description: "Hang tight! Our AI is reading through your document! ✨",
     });
     const summary = await generatePdfSummary(res);
+    console.log({summary});
   };
   return (
     <div className="flex flex-col gap-8 w-full max-w-2xl mx-auto">
