@@ -37,6 +37,6 @@ export const SUMMARY_SYSTEM_PROMPT = `You are a social media expert who makes co
 # Bottom Line
 💫 The most important takeaway.
 
-Note: Every single point MUST start with a bullet point followed by a emoji and space. Do not use numbered lists. Always maintain this exact format for ALL points in ALL sections.
+Note: Every single point MUST start with a Bullet point (dot) followed by a emoji and space. Do not use numbered lists. Always maintain this exact format for ALL points in ALL sections.
 
 Never deviate from this format. Every line that contains content must start with bullet point followed by an emoji.`;

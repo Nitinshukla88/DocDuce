@@ -1,5 +1,6 @@
 'use server'
 
+import { generateSummaryWithDeepInfra } from "@/lib/deepInfra"
 import { generateSummaryWithGemini } from "@/lib/geminiai"
 import { fetchAndExtractPDFText } from "@/lib/langChain"
 import { generatSummaryFromOpenAI } from "@/lib/openai"
@@ -34,18 +35,10 @@ export async function generatePdfSummary(uploadResponse : [{
         console.log({pdfText});
         let summary;
         try{
-            summary = await generatSummaryFromOpenAI(pdfText);
+            summary = await generateSummaryWithDeepInfra(pdfText);
             console.log({ summary });
         }catch(error){
             console.log(error);
-            if(error instanceof Error && error.message === "RATE_LIMIT_EXCEEDED"){
-                try{
-                    summary = await generateSummaryWithGemini(pdfText);
-                }catch(geminiError){
-                    console.log("Gemini error after openai quota exceeded", geminiError);
-                    throw new Error("Failed to generate summary with available AI providers");
-                }
-            }
             throw error;
         }
         if(!summary){
