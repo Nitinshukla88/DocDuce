@@ -5,13 +5,14 @@ import { generateSummaryWithDeepInfra } from "@/lib/deepInfra";
 import { fetchAndExtractPDFText } from "@/lib/langChain";
 import { formatFileNameAsTitle } from "@/utils/formatUtils";
 import { auth } from "@clerk/nextjs/server";
+import { revalidatePath } from "next/cache";
 
 interface PdfSummaryType {
-    userId?: string;
-    fileUrl: string;
-    summary: string;
-    title: string;
-    fileName: string;
+  userId?: string;
+  fileUrl: string;
+  summary: string;
+  title: string;
+  fileName: string;
 }
 export async function generatePdfSummary(
   uploadResponse: [
@@ -71,7 +72,7 @@ export async function generatePdfSummary(
       success: true,
       message: "Summary generated successfully",
       data: {
-        title : formattedFileName,
+        title: formattedFileName,
         summary,
       },
     };
@@ -84,7 +85,13 @@ export async function generatePdfSummary(
   }
 }
 
-async function savePdfSummary(userId: string, fileUrl: string, summary: string, title: string, fileName: string) {
+async function savePdfSummary(
+  userId: string,
+  fileUrl: string,
+  summary: string,
+  title: string,
+  fileName: string
+) {
   try {
     const sql = await getDbConnection();
     await sql`INSERT INTO pdf_summaries (
@@ -107,8 +114,13 @@ async function savePdfSummary(userId: string, fileUrl: string, summary: string, 
   }
 }
 
-export async function generatePdfSummaryAction({fileUrl, summary, title, fileName}: PdfSummaryType) {
-  let savedSummary : any;
+export async function generatePdfSummaryAction({
+  fileUrl,
+  summary,
+  title,
+  fileName,
+}: PdfSummaryType) {
+  let savedSummary: any;
   try {
     const { userId } = await auth();
     if (!userId) {
@@ -117,16 +129,18 @@ export async function generatePdfSummaryAction({fileUrl, summary, title, fileNam
         message: "User not found",
       };
     }
-    savedSummary = await savePdfSummary(userId, fileUrl, summary, title, fileName);
-    if(!savedSummary){
-        return {
-            success : false,
-            message : "Failed to save PDF Summary, Try again later"
-        }
-    }
-    return {
-        success : true,
-        message : "PDF Summary saved successfully",
+    savedSummary = await savePdfSummary(
+      userId,
+      fileUrl,
+      summary,
+      title,
+      fileName
+    );
+    if (!savedSummary) {
+      return {
+        success: false,
+        message: "Failed to save PDF Summary, Try again later",
+      };
     }
   } catch (error) {
     return {
@@ -135,4 +149,12 @@ export async function generatePdfSummaryAction({fileUrl, summary, title, fileNam
         error instanceof Error ? error.message : "Error saving PDF Summary",
     };
   }
+  revalidatePath(`/summaries/${savedSummary.id}`);
+  return {
+    success: true,
+    message: "PDF Summary saved successfully",
+    data: {
+      id: savedSummary.id,
+    }
+  };
 }

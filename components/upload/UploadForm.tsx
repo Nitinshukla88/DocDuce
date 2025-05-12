@@ -5,6 +5,7 @@ import { z } from "zod";
 import { toast } from "sonner";
 import { generatePdfSummary, generatePdfSummaryAction } from "@/actions/UploadActions";
 import { useRef, useState } from "react";
+import { useRouter } from "next/router";
 const Schema = z.object({
   file: z
     .instanceof(File, { message: "Invalid File" })
@@ -21,6 +22,7 @@ const Schema = z.object({
 export default function UploadForm() {
   const formRef = useRef<HTMLFormElement>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   const { startUpload, routeConfig } = useUploadThing("pdfUploader", {
     onClientUploadComplete: () => {
@@ -89,11 +91,14 @@ export default function UploadForm() {
           description: "Your PDF has been successfully summarized and saved! ✨",
         });
         formRef.current?.reset();
+        router.push(`/summaries/${storedResult.data.id}`);
       }
     } catch (error) {
       console.error("Error occurred", error);
       setIsLoading(false);
       formRef.current?.reset();
+    }finally{
+      setIsLoading(false);
     }
   };
   return (
