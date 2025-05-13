@@ -5,7 +5,7 @@ import { z } from "zod";
 import { toast } from "sonner";
 import { generatePdfSummary, generatePdfSummaryAction } from "@/actions/UploadActions";
 import { useRef, useState } from "react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 const Schema = z.object({
   file: z
     .instanceof(File, { message: "Invalid File" })

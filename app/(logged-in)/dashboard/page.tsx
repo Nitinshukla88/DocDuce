@@ -1,4 +1,5 @@
 import BgGradient from "@/components/common/BgGradient";
+import EmptySummaryStatus from "@/components/summaries/EmptySummaryStatus";
 import SummaryCard from "@/components/summaries/SummaryCard";
 import { Button } from "@/components/ui/button";
 import { getSummaries } from "@/lib/getSummaries";
@@ -42,11 +43,11 @@ export default async function DashboardPage() {
                   <p className="text-sm">You've reached the daily limit of {uploadLimit} uploads on basic plan. <Link href="/#pricing" className="text-rose-800 underline font-medium underline-offset-4 inline-flex items-center ">Click here to upgrade to Pro{' '}<ArrowRight className="w-4 h-4 inline-block"/>for unlimited uploads</Link></p>
               </div>
             </div>
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 sm:gap-6 sm:px-0 lg:grid-cols-3">
+            {summaries.length === 0 ? (<EmptySummaryStatus/>) : (<div className="grid grid-cols-1 gap-4 md:grid-cols-2 sm:gap-6 sm:px-0 lg:grid-cols-3">
               {summaries.map((summary, index)=> (
                 <SummaryCard key={index} summary={summary} />
               ))}
-            </div>
+            </div>)}
           </div>
         </div>
       </BgGradient>
