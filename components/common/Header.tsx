@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { FileText } from "lucide-react";
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import PlanBadge from "./PlanBadge";
 
 export default function Header() {
   return (
@@ -29,7 +30,7 @@ export default function Header() {
             <Link href="/upload" className="hover:text-rose-600">
               Upload a PDF
             </Link>
-            <div>Pro</div>
+            <PlanBadge/>
             <SignedIn>
               <UserButton />
             </SignedIn>

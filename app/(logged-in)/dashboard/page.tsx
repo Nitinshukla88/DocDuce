@@ -3,6 +3,7 @@ import EmptySummaryStatus from "@/components/summaries/EmptySummaryStatus";
 import SummaryCard from "@/components/summaries/SummaryCard";
 import { Button } from "@/components/ui/button";
 import { getSummaries } from "@/lib/getSummaries";
+import { hasReachedUploadLimit } from "@/lib/user";
 import { currentUser } from "@clerk/nextjs/server";
 import { ArrowRight, Plus } from "lucide-react";
 import Link from "next/link";
@@ -14,7 +15,7 @@ export default async function DashboardPage() {
   if(!userId) {
     return redirect('/sign-in');
   }
-  const uploadLimit = 5;
+  const { hasReachedLimit, uploadLimit } = await hasReachedUploadLimit(userId);
   const summaries = await getSummaries(userId);
   return (
     <main className="min-h-screen">
@@ -28,7 +29,7 @@ export default async function DashboardPage() {
                 Transform your PDFs into concise, actionable insights with AI
               </p>
               </div>
-              <Button
+              {!hasReachedLimit && (<Button
                 variant={"link"}
                 className="bg-linear-to-r from-rose-500 to-rose-700 hover:from-rose-600 hover:to-rose-800 hover:scale-105 transition-all duration-300 group hover:no-underline"
               >
@@ -36,13 +37,13 @@ export default async function DashboardPage() {
                   <Plus className="w-5 h-5 mr-2"/>
                   New Summary
                 </Link>
-              </Button>
+              </Button>)}
             </div>
-            <div className="mb-6">
+            {hasReachedLimit && (<div className="mb-6">
               <div className="bg-rose-50 border border-rose-200 rounded-lg p-4 text-rose-800">
                   <p className="text-sm">You've reached the daily limit of {uploadLimit} uploads on basic plan. <Link href="/#pricing" className="text-rose-800 underline font-medium underline-offset-4 inline-flex items-center ">Click here to upgrade to Pro{' '}<ArrowRight className="w-4 h-4 inline-block"/>for unlimited uploads</Link></p>
               </div>
-            </div>
+            </div>)}
             {summaries.length === 0 ? (<EmptySummaryStatus/>) : (<div className="grid grid-cols-1 gap-4 md:grid-cols-2 sm:gap-6 sm:px-0 lg:grid-cols-3">
               {summaries.map((summary, index)=> (
                 <SummaryCard key={index} summary={summary} />
