@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { generatePdfSummary, generatePdfSummaryAction } from "@/actions/UploadActions";
 import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import LoadingSkeletion from "./LoadingSkeleton";
 const Schema = z.object({
   file: z
     .instanceof(File, { message: "Invalid File" })
@@ -103,7 +104,34 @@ export default function UploadForm() {
   };
   return (
     <div className="flex flex-col gap-8 w-full max-w-2xl mx-auto">
+      <div className="relative">
+        <div className="absolute inset-0 flex items-center" aria-hidden="true">
+          <div className="w-full border-t border-gray-200 dark:border-gray-800"/>
+        </div>
+        <div className="relative flex justify-center">
+          <span className="bg-background px-3 text-muted-foreground text-sm">
+            Upload PDF
+          </span>
+        </div>
+      </div>
       <UploadFormInput ref={formRef} isLoading={isLoading} onSubmit={handleSubmit} />
+      {isLoading && (
+        <>
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center"
+            aria-hidden="true"
+            >
+              <div className="w-full border-t border-gray-200 dark:border-gray-800"/>
+            </div>
+            <div className="relative flex justify-center">
+              <span className="bg-background px-3 text-muted-foreground text-sm">
+                Processing
+              </span>
+            </div>
+          </div>
+          <LoadingSkeletion/>
+        </>
+      )}
     </div>
   );
 }
