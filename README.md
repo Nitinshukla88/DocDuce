@@ -2,6 +2,9 @@
 
 Built with Next.js 15 Router, Clerk for Auth, React, OpenAI GPT-4, Langchain, shadcN UI components, Tailwind CSS v4, NeonDB, UploadThing, Stripe for payments, Typescript, TailwindCSS and more.
 
+![Screenshot (90)](https://github.com/user-attachments/assets/49168eca-41cc-4c62-8f79-9d5a3a85e095)
+
+
 ## Features 
 
 ### Core Technologies:
