@@ -10,9 +10,15 @@ export const ourFileRouter = {
     if(!user) throw new UploadThingError("Unauthorized");
     return { userId : user.id};
   }).onUploadComplete(async({metadata, file})=> {
-    console.log("File is uploaded successfully for user id", metadata.userId );
-    console.log('file url', file.url);
-    return { userId : metadata.userId, file }
+    return {
+      userId: metadata.userId,
+      file: {
+        url: file.url,
+        name: file.name,
+        size: file.size,
+        type: file.type,
+      },
+    };
   })
 } satisfies FileRouter
 
