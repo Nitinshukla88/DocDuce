@@ -15,7 +15,7 @@ interface PdfSummaryType {
   fileName: string;
 }
 export async function generatePdfSummary(
-  uploadResponse: [
+  uploadResponse:
     {
       serverData: {
         userId: string;
@@ -24,8 +24,7 @@ export async function generatePdfSummary(
           name: string;
         };
       };
-    }
-  ]
+    }[]
 ) {
   if (!uploadResponse) {
     return {
