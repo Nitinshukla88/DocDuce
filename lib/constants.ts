@@ -58,14 +58,19 @@ export const DEMO_SUMMARY = `
 # Overview 
 🚀 Mastering Next.js: The Ultimate Beginner-to-Pro Guide
 👉 Build blazing-fast, modern web apps with Next.js—no experience required!
+👉 Build powerful, production-ready React applications with Next.js, a full-stack framework that simplifies development.
+👉 Next.js is a React framework for building modern, server-rendered applications with ease.
 
 # Key Highlights
 👉 🌐 Covers Next.js fundamentals, routing, and data fetching
 👉 ⚡ Hands-on projects to solidify your learning
 👉 🚀 Deployment tips for getting your site live fast
+👉 🚀 It is SEO friendly and fast
+👉 🚀 Next.js simplifies the development process with its powerful features.
 
 # Why it matters
 👉 Next.js is the framework powering some of the world’s fastest, most scalable websites—from startups to tech giants. Mastering it means you can build production-ready apps with ease, boost your career, and deliver incredible user experiences.
+👉 It solves the core problems of client-side React applications, providing superior performance and SEO benefits through built-in server-side rendering and static site generation.
 
 # Main Points
 👉 💡 Learn how Next.js simplifies React development with built-in routing and SSR
@@ -73,13 +78,15 @@ export const DEMO_SUMMARY = `
 👉 🛠️ Deploy your Next.js site to Vercel or your favorite cloud in minutes
 
 # Pro Tips
-⭐ Use dynamic routing to create flexible, SEO-friendly pages
-💎 Leverage API routes to build full-stack features without extra backend setup
-⭐ Optimize images with Next.js’ Image component for lightning-fast load times
+👉 ⭐ Use dynamic routing to create flexible, SEO-friendly pages
+👉 💎 Leverage API routes to build full-stack features without extra backend setup
+👉 🚀 Optimize images with Next.js’ Image component for lightning-fast load times
+👉 🚀 Next.js leverage React Server Components to run your code on the server and fetch data, reducing the amount of JavaScript sent to the client and improving initial page load times.
 
 # Key Terms to Know
 👉 SSR (Server-Side Rendering): 🚀 Rendering pages on the server for faster load and better SEO
 👉 Static Generation: 📦 Pre-building pages at build time for maximum speed
+👉 Next.js is pre-rendering, which refers to how Next.js generates HTML for a page in advance, either on the server at build time or on each request.
 
 # Bottom Line
 💫 Next.js is your secret weapon for building powerful, scalable, and lightning-fast web applications—start mastering it today!

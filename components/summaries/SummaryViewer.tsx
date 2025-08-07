@@ -26,13 +26,13 @@ export default function SummaryViewer({summary} : {summary : string}){
                 <div className="px-4 sm:px-6">
                     <SectionTitle title={sections[currentSection]?.title || ''}/>
                     <ContentSection title={sections[currentSection]?.title || ''} points={sections[currentSection]?.points || []}/>
-                    <ul className="space-y-4">
+                    {/* <ul className="space-y-4">
                         {sections[currentSection]?.points.map((point, index) => (
                             <li key={index} className="group relative bg-linear-to-br from-gray-200/[0.08] to-gray-400/[0.03] p-4 rounded-2xl border border-gray-500/10 hover:shadow-lg transition-all">
                                 {point}
                             </li>
                         ))}
-                    </ul>
+                    </ul> */}
                 </div>
             </MotionDiv>
             <NavigationCantrols currentSection={currentSection} totalSections={sections.length} onPrevious={handlePrevious} onNext={handleNext} onSectionSelect={setCurrentSection} />
