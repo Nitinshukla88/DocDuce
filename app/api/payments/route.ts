@@ -19,11 +19,12 @@ export const POST = async (req: NextRequest) => {
         switch(event.type){
             case 'checkout.session.completed':
                 console.log("Checkout session completed");
+
                 const sessionId = event.data.object.id;
-                const session = await stripe.checkout.sessions.retrieve(sessionId, {
+                const fullSession = await stripe.checkout.sessions.retrieve(sessionId, {
                     expand: ['line_items'],
                 });
-                await handleCheckoutSessionCompleted({ session, stripe });
+                await handleCheckoutSessionCompleted({ session: fullSession, stripe });
                 break;
             case 'customer.subscription.deleted':
                 console.log("Customer subscription deleted");
